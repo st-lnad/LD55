@@ -8,7 +8,6 @@ public static class GlifQualityChecker
         int patternPixelCounter = 0;
         int paintMissCounter = 0;
         int paintDificitCounter = 0;
-        float maxPaintA = 0f;
 
         if (pattern.width != paint.width || pattern.height != paint.height)
         {
@@ -21,7 +20,6 @@ public static class GlifQualityChecker
             {
                 Color patternColor = pattern.GetPixel(x, y);
                 Color paintColor = paint.GetPixel(x, y);
-                maxPaintA = Mathf.Max(maxPaintA, paintColor.a);
                 if (patternColor.a > 0) {
                     patternPixelCounter++;
                     if (paintColor.a < _esp)

@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _texture: {fileID: 0}
-  _material: {fileID: 2100000, guid: d8e49cf0e58dd6549b460684f4af292a, type: 2}
+  _material: {fileID: 2100000, guid: 4e4e5ce536f625e4781672feff9a9f99, type: 2}
   _collider: {fileID: 4532814444445729611}
   _color: {r: 0, g: 0, b: 0, a: 1}
   _brushSize: 28
