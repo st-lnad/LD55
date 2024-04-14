@@ -1,0 +1,94 @@
+using UnityEngine;
+
+public class Paint : MonoBehaviour
+{
+    [SerializeField] private Texture2D _texture;
+    [SerializeField] private Material _material;
+    [SerializeField] private Collider _collider;
+    [SerializeField] private Color _color;
+    [SerializeField] private int _brushSize = 8;
+
+    private int _textureSize = 512;
+    private int _oldRayX, _oldRayY;
+    private bool _paintModeOn = true;
+
+    private Texture2D GenerateSquareTexture(int size)
+    {
+        Texture2D res = new Texture2D(size, size);
+        for (int x = 0; x < size; x++) 
+        {
+            for (int y = 0; y < size; y++)
+            {
+                res.SetPixel(x, y, new Color(0, 0, 0, 0));
+            }
+        }
+        return res;
+    }
+
+    private void Awake()
+    {
+        _texture = GenerateSquareTexture(_textureSize);
+        _texture.wrapMode = TextureWrapMode.Repeat;
+        _texture.filterMode = FilterMode.Point;
+        _texture.Apply();
+
+        _material.mainTexture = _texture;
+    }
+
+    private void Update()
+    {
+        if (!_paintModeOn)
+            return;
+
+        _brushSize += (int)Input.mouseScrollDelta.y;
+
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit hit;
+            if (_collider.Raycast(ray, out hit, 100f))
+            {
+                int rayX = (int)(hit.textureCoord.x * _textureSize);
+                int rayY = (int)(hit.textureCoord.y * _textureSize);
+
+                if (_oldRayX != rayX || _oldRayY != rayY)
+                {
+                    DrawCircle(rayX, rayY);
+                    _oldRayX = rayX;
+                    _oldRayY = rayY;
+                }
+                _texture.Apply();
+            }
+        }
+    }
+
+    private void DrawCircle(int rayX, int rayY)
+    {
+        for (int y = 0; y < _brushSize; y++)
+        {
+            for (int x = 0; x < _brushSize; x++)
+            {
+
+                float x2 = Mathf.Pow(x - _brushSize / 2, 2);
+                float y2 = Mathf.Pow(y - _brushSize / 2, 2);
+                float r2 = Mathf.Pow(_brushSize / 2 - 0.5f, 2);
+
+                if (x2 + y2 < r2)
+                {
+                    int pixelX = rayX + x - _brushSize / 2;
+                    int pixelY = rayY + y - _brushSize / 2;
+
+                    if (pixelX >= 0 && pixelX < _textureSize && pixelY >= 0 && pixelY < _textureSize)
+                    {
+                        Color oldColor = _texture.GetPixel(pixelX, pixelY);
+                        Color resultColor = Color.Lerp(oldColor, _color, _color.a);
+                        _texture.SetPixel(pixelX, pixelY, resultColor);
+                    }
+
+                }
+            }
+        }
+    }
+
+}
