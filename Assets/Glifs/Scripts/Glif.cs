@@ -8,6 +8,11 @@ public class Glif : MonoBehaviour
     private Material _patternMaterial;
     private Material _paintMaterial;
 
+    [SerializeField] private Vector2 _grade1Coefs; 
+    [SerializeField] private Vector2 _grade2Coefs; 
+    [SerializeField] private Vector2 _grade3Coefs;
+    [SerializeField] private Vector2 _loseCoefs;
+
     private void Start()
     {
         _patternMaterial = _patternObject.GetComponent<Renderer>().material;
@@ -17,13 +22,20 @@ public class Glif : MonoBehaviour
     public void SetPattern(Material pattern)
     {
         _patternMaterial.CopyPropertiesFromMaterial(pattern);
+        _paintObject.GetComponent<Paint>().ClearCanvas();
     }
 
 
     [ContextMenu("Check glif quality")]
-    private void CheckQuality()
+    public float CheckQuality()
     {
-        GlifQualityChecker.CheckWithoutColor((Texture2D)_patternMaterial.mainTexture, (Texture2D)_paintMaterial.mainTexture);
+        Vector2 res = GlifQualityChecker.CheckWithoutColor((Texture2D)_patternMaterial.mainTexture, (Texture2D)_paintMaterial.mainTexture);
+        if (res.x < _loseCoefs.x || res.y < _loseCoefs.y) return 0f;
+        if (res.magnitude >= _grade1Coefs.magnitude) return 1f;
+        if (res.magnitude >= _grade2Coefs.magnitude) return 0.66f;
+        if (res.magnitude >= _grade3Coefs.magnitude) return 0.33f;
+        Debug.Log("Коэффициенты говно");
+        return 0.2f;
     }
 
     

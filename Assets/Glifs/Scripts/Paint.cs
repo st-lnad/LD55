@@ -12,8 +12,6 @@ public class Paint : MonoBehaviour
     private int _oldRayX, _oldRayY;
     private bool _paintModeOn = false;
     
-
-
     private void Awake()
     {
         _texture = GenerateSquareTexture(_textureSize);
@@ -62,6 +60,13 @@ public class Paint : MonoBehaviour
         _paintModeOn = false;
     }
 
+    public void ClearCanvas()
+    {
+        _texture = GenerateSquareTexture(_textureSize);
+        _texture.Apply();
+        _material = GetComponent<Renderer>().material;
+        _material.mainTexture = _texture;
+    }
     private Texture2D GenerateSquareTexture(int size)
     {
         Texture2D res = new Texture2D(size, size);

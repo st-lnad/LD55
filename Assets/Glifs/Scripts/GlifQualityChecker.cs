@@ -3,7 +3,7 @@ using UnityEngine;
 public static class GlifQualityChecker
 {
     private static float _esp = 3f/512;
-    public static float CheckWithoutColor(Texture2D pattern, Texture2D paint)
+    public static Vector2 CheckWithoutColor(Texture2D pattern, Texture2D paint)
     {
         int patternPixelCounter = 0;
         int paintMissCounter = 0;
@@ -30,8 +30,9 @@ public static class GlifQualityChecker
             }
         }
 
-        float res = 1f - (float)paintMissCounter/patternPixelCounter - (float)paintDificitCounter/patternPixelCounter;
-        Debug.Log($"{res} {patternPixelCounter} {paintMissCounter} {paintDificitCounter}");
-        return res;
+        float missCoef = 1f - (float)paintMissCounter / patternPixelCounter;
+        float dificitCoef = 1f - (float)paintDificitCounter / patternPixelCounter;
+        Debug.Log($"{missCoef} {dificitCoef}");
+        return new Vector2(missCoef, dificitCoef);
     }
 }

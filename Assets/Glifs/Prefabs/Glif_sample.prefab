@@ -499,7 +499,7 @@ MonoBehaviour:
   _material: {fileID: 2100000, guid: 4e4e5ce536f625e4781672feff9a9f99, type: 2}
   _collider: {fileID: 4532814444445729611}
   _color: {r: 0, g: 0, b: 0, a: 1}
-  _brushSize: 28
+  _brushSize: 20
 --- !u!1 &4415348650872993356
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,6 +550,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _patternObject: {fileID: 397692123912631592}
   _paintObject: {fileID: 1468280131056365608}
+  _grade1Coefs: {x: 0.85, y: 0.7}
+  _grade2Coefs: {x: 0.6, y: 0.5}
+  _grade3Coefs: {x: 0.4, y: 0.4}
+  _loseCoefs: {x: 0.4, y: 0.2}
 --- !u!58 &6387807850947323734
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -777,7 +781,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6746933027155705248}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
