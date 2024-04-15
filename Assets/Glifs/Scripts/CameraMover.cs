@@ -20,9 +20,9 @@ public class CameraMover : MonoBehaviour
     }
 
     [ContextMenu("Zoom")]
-    public void MoveToGlif()
+    public void MoveToGlif(Glif glif)
     {
-        Glif glif = _targetGlif;
+        _targetGlif = glif;
         _camera.enabled = true;
         previousPosition = transform.position;
         glifPosition = glif.transform.position;
@@ -32,7 +32,7 @@ public class CameraMover : MonoBehaviour
 
     public void ResetPosition()
     {
-
+        StartCoroutine(nameof(MoveBack));
     }
 
     private IEnumerator Move()
@@ -44,6 +44,19 @@ public class CameraMover : MonoBehaviour
             t += Time.deltaTime;
             _camera.orthographicSize = Mathf.Lerp(_normalSize, _scopeSize, t);
             transform.position = Vector3.Lerp(previousPosition, glifPosition, t);
+            yield return delay;
+        }
+    }
+
+    private IEnumerator MoveBack()
+    {
+        float t = 0f;
+        var delay = new WaitForEndOfFrame();
+        while (t <= 1f)
+        {
+            t += Time.deltaTime;
+            _camera.orthographicSize = Mathf.Lerp(_scopeSize, _normalSize, t);
+            transform.position = Vector3.Lerp(glifPosition, previousPosition, t);
             yield return delay;
         }
     }

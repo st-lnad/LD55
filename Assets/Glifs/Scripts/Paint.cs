@@ -10,7 +10,7 @@ public class Paint : MonoBehaviour
 
     private int _textureSize = 512;
     private int _oldRayX, _oldRayY;
-    private bool _paintModeOn = true;
+    private bool _paintModeOn = false;
     
 
 
